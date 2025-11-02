@@ -17,15 +17,6 @@ import QtToolkit.regx
 
 
 class LabeledComboBox(QtWidgets.QWidget):
-    """
-    A simple QHBoxLayout with a label and a line edit.
-
-    Args:
-        text(str): The label for the row.
-
-        contents(Optional[list[str]]): Items to populate the combo box with.
-    """
-
     def __init__(self, text: str, contents: Optional[list[str]] = None):
         super().__init__()
         self.layout_main = QtWidgets.QHBoxLayout()
@@ -44,7 +35,7 @@ class LabeledComboBox(QtWidgets.QWidget):
         return self.cmb_box.currentText()
 
     @property
-    def item_is_valid(self) -> bool:
+    def item_is_alphanum(self) -> bool:
         """Returns whether the current item does not contain non-alpha-numeric
         or non-underscore characters.
         """
