@@ -21,3 +21,4 @@ wrappers do not exist for that class.
 ### Resources
 
 `QtToolkit.gui` contains path variables to the stored icons and stylesheets.
+*/.idea
