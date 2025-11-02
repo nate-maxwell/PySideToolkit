@@ -1,5 +1,5 @@
 """
-# Mythos Pipeline Toolbar
+# Toolbar
 
 * Description:
 
@@ -25,10 +25,10 @@ def null(*args) -> None:
     pass
 
 
-DEFAULT_ICON = QtToolkit.icons.BUTTON_BLACK_40X40
+DEFAULT_ICON = QtToolkit.gui.BUTTON_BLACK_40X40
 
 
-class MythosToolbar(QtWidgets.QToolBar):
+class Toolbar(QtWidgets.QToolBar):
     def __init__(self, toolbar_name: str, parent=None) -> None:
         super().__init__(parent=parent)
         self.default_button_resolution: list[int] = [40, 40]
