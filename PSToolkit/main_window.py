@@ -178,7 +178,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle(window_name)
 
         ini_name = window_name.replace(' ', '_')
-        _settings_path: Path = Path(_appdata_path, f'QtToolkit/{ini_name}.ini')
+        _settings_path: Path = Path(_appdata_path, f'PSToolkit/{ini_name}.ini')
         if not _settings_path.parent.exists():
             _settings_path.parent.mkdir(parents=True, exist_ok=True)
 
