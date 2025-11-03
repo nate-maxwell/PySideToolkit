@@ -142,8 +142,37 @@ def _ensure_on_screen(window: QtWidgets.QWidget) -> None:
 
 
 class MainWindow(QtWidgets.QMainWindow):
-    def __init__(self, window_name: str, min_size: tuple[int, int],
-                 max_size: tuple[int, int],
+    """Wrapper for a persistent main window with configurable size limits.
+
+    This class extends `QtWidgets.QMainWindow` to include automatic window
+    geometry persistence using a QSettings INI file stored under the user's
+    application data directory. It initializes the main window title, minimum
+    and maximum size constraints, and restores the last known window geometry
+    on creation.
+
+    Attributes:
+        settings (QtCore.QSettings): The settings object used to store and
+            retrieve window state (size, position, etc.).
+
+    Args:
+        window_name (str): Display title of the window. Also used as the base
+            name for the associated `.ini` settings file.
+        min_size (tuple[int, int]): Minimum allowed window dimensions (width,
+            height). Passing None will disable constraint.
+        max_size (tuple[int, int]): Maximum allowed window dimensions (width,
+            height). Passing None will disable constraint.
+        parent (Optional[QtWidgets.QWidget]): Optional parent widget, defaults
+            to None.
+
+    Methods:
+        closeEvent(event: QtGui.QCloseEvent) -> None:
+            Saves the window geometry and state to the settings file when
+            closing.
+    """
+
+    def __init__(self, window_name: str,
+                 min_size: Optional[tuple[int, int]] = None,
+                 max_size: Optional[tuple[int, int]] = None,
                  parent: Optional[QtWidgets.QWidget] = None) -> None:
         super(MainWindow, self).__init__(parent)
         self.setWindowTitle(window_name)
@@ -153,10 +182,15 @@ class MainWindow(QtWidgets.QMainWindow):
         if not _settings_path.parent.exists():
             _settings_path.parent.mkdir(parents=True, exist_ok=True)
 
-        self._settings: QtCore.QSettings = QtCore.QSettings(
+        self.settings: QtCore.QSettings = QtCore.QSettings(
             _settings_path.as_posix(),
             QtCore.QSettings.Format.IniFormat
         )
+
+        if min_size is None:
+            min_size = (0, 0)
+        if max_size is None:
+            max_size = (0, 0)
 
         if not min_size == (0, 0):
             self.resize(min_size[0], min_size[1])
@@ -164,9 +198,9 @@ class MainWindow(QtWidgets.QMainWindow):
         if not max_size == (0, 0):
             self.setMaximumSize(max_size[0], max_size[1])
 
-        restore_window(self, self._settings)
+        restore_window(self, self.settings)
 
     def closeEvent(self, event: QtGui.QCloseEvent) -> None:
         """Persist on close."""
-        save_window(self, self._settings)
+        save_window(self, self.settings)
         super().closeEvent(event)
