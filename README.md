@@ -23,18 +23,20 @@ class Foo(QtWrappers.MainWindow):
 
 ## Wrappers
 
+### Methods
 Wrapper methods will always be snake_case, i.e. if a widget has methods to
 add widgets or layouts, it will be `widget.add_widget(wid)`,
 `layout.add_stretch()`, or `widget.add_layout(lay)`, which will be shorthand
 for `widget.layout.addWidget(wid)`, etc. If those methods are not present, the
 wrappers do not exist for that class.
 
+### Getters / Setters
 Properties are not used to keep the workflow / coding style similar to actual
 PySide. Use `object.value()` or  `object.get_value()` and 
 `object.set_value(val)`.
 
-Complex wrappers follow a constructor pattern of
-
+### Constructors
+If able, widgets follow the following constructor pattern:
 ```python
 def __init__(self) -> None:
     super().__init__()
