@@ -45,7 +45,7 @@ class Toolbar(QtWidgets.QToolBar):
     Example:
         >>> class MyToolbar(Toolbar):
         ...     def build(self) -> None:
-        ...         self.add_toolbar_command('Save', self.save_command)
+        ...         self.add_toolbar_command('Save', library.save_command)
         ...
         >>> toolbar = MyToolbar('My Tools')
 
