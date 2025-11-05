@@ -31,11 +31,12 @@ def set_windows_app_user_model_id(app_id: str) -> None:
     if platform.system() != 'Windows':
         return
 
-    fn_name = 'set_windows_app_user_model_id'
+    call_name = 'set_windows_app_user_model_id'
+    fn_name = 'SetCurrentProcessExplicitAppUserModelID'
 
     try:
         shell32 = ctypes.windll.shell32
-        fn = getattr(shell32, 'SetCurrentProcessExplicitAppUserModelID', None)
+        fn = getattr(shell32, fn_name, None)
         if fn is None:
             return
         fn.argtypes = [ctypes.c_wchar_p]
@@ -43,13 +44,13 @@ def set_windows_app_user_model_id(app_id: str) -> None:
         fn(app_id)
 
     except OSError as err:
-        print(f'[{fn_name}] OSError calling SetCurrentProcessExplicitAppUserModelID: {err!r}')
+        print(f'[{call_name}] OSError calling {fn_name}: {err!r}')
 
     except ValueError as err:
-        print(f'[{fn_name}] ValueError setting AppUserModelID: {err!r}')
+        print(f'[{call_name}] ValueError setting AppUserModelID: {err!r}')
 
     except Exception as err:
-        print(f'[{fn_name}] Unexpected error: {type(err).__name__}: {err!r}')
+        print(f'[{call_name}] Unexpected error: {type(err).__name__}: {err!r}')
 
 
 def single_instance_lock(name: str) -> QtCore.QLockFile:
@@ -120,7 +121,7 @@ def exec_single_instance_app(
             app_name).
 
     Returns:
-        The process exit code.
+        int: The process exit code.
     """
     app = init_application(org=org, app_name=app_name, app_id_windows=app_id_windows)
 
@@ -145,7 +146,13 @@ def exec_single_instance_app(
 
 
 def exec_app(window_cls: Type[QtWidgets.QMainWindow], app_name: str) -> None:
-    """Run a QApplication for a given main window (basic)."""
+    """Run a QApplication for a given main window (basic).
+
+    Args:
+        window_cls (Type[QtWidgets.QMainWindow]): The main window class type to
+            start an application with.
+        app_name (str): The name of the application.
+    """
     app = init_application('MyOrg', app_name)
     win = window_cls()
     win.show()
