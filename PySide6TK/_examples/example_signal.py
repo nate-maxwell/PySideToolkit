@@ -10,6 +10,7 @@ class Worker(QtCore.QObject):
         super().__init__()
         self.work_done.connect(self.on_work_done)
 
+    # Feed the string name of the signal to emit after method execution
     @QtWrappers.emit_signal('work_done')
     def do_work(self) -> None:
         print('Doing some work...')
