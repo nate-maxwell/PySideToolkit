@@ -4,7 +4,7 @@ from PySide6TK import QtWrappers
 class Foo(QtWrappers.MainWindow):
     def __init__(self) -> None:
         super().__init__('file selector')
-        self.wid = QtWrappers.FileSelector('file')
+        self.wid = QtWrappers.FileSelector('File:')
         self.setCentralWidget(self.wid)
 
 
