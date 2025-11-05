@@ -21,6 +21,18 @@ class Foo(QtWrappers.MainWindow):
         self.setCentralWidget(self.wid)
 ```
 
+Optionally, these same items can be gotten from like so:
+```python
+from PySide6TK.groupbox import GroupBox
+from PySide6TK.main_window import MainWindow
+
+class Foo(MainWindow):
+    def __init__(self) -> None:
+        super().__init__('example window')
+        self.wid = GroupBox('test box')
+        self.setCentralWidget(self.wid)
+```
+
 ## Wrappers
 
 ### Methods
